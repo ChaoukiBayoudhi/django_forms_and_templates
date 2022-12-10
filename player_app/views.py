@@ -12,20 +12,31 @@ def about(request):
 
 #get one player via form
 def player(request):
-    if request.method == 'POST':
-        form = PlayerForm(request.POST, request.FILES)
+        context={}
+    #if request.method == 'POST':
+        form = PlayerForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
-            return redirect('/players')
-    else:
-        form = PlayerForm()
-    return render(request, 'index.html', {'form': form})
+            return redirect('/players/list',{'players',Player.objects.all()})
+    #else:
+     #   form = PlayerForm()
+        context['form'] = form
+        return render(request, 'create.html', {'form': form})
 #show all players
 def players(request):
     players = Player.objects.all()
     return render(request, 'players.html', {'players': players})
 
-#edit player form
+    # dictionary for initial data with
+    # field names as keys
+   #context ={}
+    # add the dictionary during initialization
+    #context["palyers"] = Player.objects.all()
+
+    #return render(request, 'players.html', context)
+    
+
+#update player form
 def edit(request, id):
     player = Player.objects.get(id=id)
     if request.method == 'GET':
@@ -34,7 +45,7 @@ def edit(request, id):
         form = PlayerForm(request.POST, request.FILES, instance=player)
         if form.is_valid():
             form.save()
-        return redirect('/players')
+        return redirect('/list')
     return render(request, 'edit.html', {'form': form, 'player': player})
 
 #delete player
@@ -42,5 +53,5 @@ def delete(request, id):
     player = Player.objects.get(id=id)
     if request.method == 'POST':
         player.delete()
-        return redirect('/players')
+        return redirect('/players/list')
     return render(request, 'delete.html', {'player': player})

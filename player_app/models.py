@@ -11,6 +11,8 @@ class Player(models.Model):
     tshirtNumber=models.PositiveSmallIntegerField()
     photo=models.ImageField(upload_to='photos/', blank=True,null=True)
     password=models.CharField(max_length=100)
+    gender=models.CharField(max_length=10,choices=(('F','Female'),('M','Male')),default='M')
+    description=models.TextField(blank=True,null=True)
     class Meta:
         db_table = "player"
         verbose_name = "Player"
