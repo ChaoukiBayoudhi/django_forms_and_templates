@@ -4,6 +4,13 @@ from player_app.models import Player
 
 
 class PlayerForm(forms.ModelForm):
+    """
+    hobbies = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=Player.HOBBIES_CHOICES,
+    )
+    """
     class Meta:
         model = Player
         fields = "__all__"
@@ -15,8 +22,11 @@ class PlayerForm(forms.ModelForm):
             'tshirtNumber': forms.NumberInput(attrs={'class': "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",'placeholder': 'Enter the tshirt number of the player'}),
             'photo': forms.FileInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class':"shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"}),
-            'gender':forms.Select(attrs={'class': "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}),
+            #'gender':forms.Select(attrs={'class': "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}),
+            'gender':forms.RadioSelect(),
+            'hobbies': forms.CheckboxSelectMultiple(),
             'description': forms.Textarea(attrs={'class': "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",'placeholder': 'Enter the description of the player'}),
+
         }
         labels = {
             'name': 'Player Name',
@@ -26,6 +36,7 @@ class PlayerForm(forms.ModelForm):
             'photo': 'Player Photo',
             'gender': 'Player Gender',
             'description': 'Player Description',
+            'hobbies': 'Player Hobbies',
         }
         # help_texts = {
         #     'name': 'Enter the name of the player',
